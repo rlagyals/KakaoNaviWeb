@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>카카오 네비게이션</title>
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+    integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
+  <script>
+    // URL 파라미터를 가져오는 함수
+    function getQueryParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        name0: params.get('name0'),
+        x0: params.get('x0'),
+        y0: params.get('y0'),
+        name1: params.get('name1'),
+        x1: params.get('x1'),
+        y1: params.get('y1'),
+        name2: params.get('name2'),
+        x2: params.get('x2'),
+        y2: params.get('y2'),
+        name3: params.get('name3'),
+        x3: params.get('x3'),
+        y3: params.get('y3')
+      };
+    }
+
+    // 카카오 네비게이션 초기화 및 시작
+    function startNavigation() {
+      const { name0, x0, y0, name1, x1, y1, name2, x2, y2, name3, x3, y3 } = getQueryParams();
+
+      const viaPoints = [];
+      if (name0) viaPoints.push({ name: name0, x: parseFloat(x0), y: parseFloat(y0) });
+      if (name1) viaPoints.push({ name: name1, x: parseFloat(x1), y: parseFloat(y1) });
+      if (name2) viaPoints.push({ name: name2, x: parseFloat(x2), y: parseFloat(y2) });
+
+      Kakao.init('c089c8172def97eb00c07217cae17495');  
+      Kakao.Navi.start({
+        name: name3,
+        x: parseFloat(x3),
+        y: parseFloat(y3),
+        coordType: 'wgs84',
+        viaPoints: viaPoints,
+      });
+    }
+  </script>
+</head>
+<body onload="startNavigation()">
+</body>
+</html>
