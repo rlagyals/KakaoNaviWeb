@@ -107,7 +107,17 @@
       function startAppleNavigation() {
         const { name0, name1, name2, name3 } = getQueryParams();
 
-        const url = `https://maps.apple.com/?daddr=${name0}&daddr=${name1}&daddr=${name2}&daddr=${name3}&dirflg=d&t=h`;
+        // URL을 구성할 배열
+        const urlParams = [];
+
+        // 값이 존재하는 경우에만 추가
+        if (name0 && name0 !== "undefined") urlParams.push(`daddr=${name0}`);
+        if (name1 && name1 !== "undefined") urlParams.push(`daddr=${name1}`);
+        if (name2 && name2 !== "undefined") urlParams.push(`daddr=${name2}`);
+        if (name3 && name3 !== "undefined") urlParams.push(`daddr=${name3}`);
+
+        // URL 생성
+        const url = `https://maps.apple.com/?${urlParams.join("&")}&dirflg=d&t=h`;
         window.location.href = url;
       }
 
