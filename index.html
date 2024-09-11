@@ -105,9 +105,9 @@
 
       // 애플 네비게이션 시작
       function startAppleNavigation() {
-        const { x0, y0, x1, y1, x2, y2, x3, y3 } = getQueryParams();
+        const { name0, name1, name2, name3 } = getQueryParams();
 
-        const url = `https://maps.apple.com/?daddr=${x0},${y0}&daddr=${x1},${y1}&daddr=${x2},${y2}&daddr=${x3},${y3}&dirflg=d&t=h`;
+        const url = `https://maps.apple.com/?daddr=${name0}&daddr=${name1}&daddr=${name2}&daddr=${name3}&dirflg=d&t=h`;
         window.location.href = url;
       }
 
