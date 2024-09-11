@@ -1,55 +1,214 @@
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
-  integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
-<script>
-  Kakao.init('cfac1bb447931c69251494aeb4793527'); // 사용하려는 앱의 JavaScript 키 입력
-</script>
-<a id="start-navigation" href="javascript:startNavigation()">
-  <img src="https://developers.kakao.com/assets/img/about/buttons/navi/kakaonavi_btn_medium.png"
-    alt="길 안내하기 버튼" />
-</a>
-<script>
-  // URL 파라미터를 가져오는 함수
-  function getQueryParams() {
-    const params = new URLSearchParams(window.location.search);
-    return {
-      name0: params.get('name0'),
-      x0: params.get('x0'),
-      y0: params.get('y0'),
-      name1: params.get('name1'),
-      x1: params.get('x1'),
-      y1: params.get('y1'),
-      name2: params.get('name2'),
-      x2: params.get('x2'),
-      y2: params.get('y2'),
-      name3: params.get('name3'),
-      x3: params.get('x3'),
-      y3: params.get('y3')
-    };
-  }
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+    />
+    <style>
+      /* 전체 화면 레이아웃 */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Pretendard";
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
 
-  // 카카오 네비게이션 초기화 및 시작
-  function startNavigation() {
-    const { name0, x0, y0, name1, x1, y1, name2, x2, y2, name3, x3, y3 } = getQueryParams();
+      .container {
+        text-align: center;
+        padding: 20px;
+      }
 
-    const viaPoints = [];
-    if (name0 && x0 && y0 && name0 !== 'undefined' && x0 !== 'undefined' && y0 !== 'undefined') {
-        viaPoints.push({ name: name0, x: parseFloat(x0), y: parseFloat(y0) });
-    }
-    if (name1 && x1 && y1 && name1 !== 'undefined' && x1 !== 'undefined' && y1 !== 'undefined') {
-        viaPoints.push({ name: name1, x: parseFloat(x1), y: parseFloat(y1) });
-    }
-    if (name2 && x2 && y2 && name2 !== 'undefined' && x2 !== 'undefined' && y2 !== 'undefined') {
-        viaPoints.push({ name: name2, x: parseFloat(x2), y: parseFloat(y2) });
-    }
+      h2 {
+        color: #5168f6;
+        font-size: 20px;
+        margin-bottom: 40px;
+        margin-top: 24px;
+        line-height: 30px;
+        font-weight: 500;
+      }
 
-    Kakao.Navi.start({
-      name: name3,
-      x: parseFloat(x3),
-      y: parseFloat(y3),
-      coordType: 'wgs84',
-      viaPoints: viaPoints, // 경유지 추가
-    });
-  }
-</script>
+      .button {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* 텍스트를 가운데 정렬 */
+        width: 300px;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: none;
+        position: relative; /* 아이콘과 텍스트를 조정 */
+      }
 
+      .button img {
+        position: absolute;
+        left: 15px; /* 아이콘을 버튼의 왼쪽에 고정 */
+      }
 
+      .apple-btn img {
+        width: 25px;
+        height: 20px;
+      }
+
+      .kakao-btn img {
+        width: 20px;
+        height: 19px;
+      }
+
+      /* 애플 맵 버튼 */
+      .apple-btn {
+        background-color: #000;
+        color: white;
+        margin-bottom: 16px;
+      }
+
+      /* 카카오 네비 버튼 */
+      .kakao-btn {
+        background-color: #ffe812;
+        color: black;
+      }
+    </style>
+    <script
+      src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+      integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      Kakao.init("cfac1bb447931c69251494aeb4793527"); // 카카오 API JavaScript 키 입력
+
+      // URL 파라미터를 가져오는 함수
+      function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          name0: params.get("name0"),
+          x0: params.get("x0"),
+          y0: params.get("y0"),
+          name1: params.get("name1"),
+          x1: params.get("x1"),
+          y1: params.get("y1"),
+          name2: params.get("name2"),
+          x2: params.get("x2"),
+          y2: params.get("y2"),
+          name3: params.get("name3"),
+          x3: params.get("x3"),
+          y3: params.get("y3"),
+        };
+      }
+
+      // 애플 네비게이션 시작
+      function startAppleNavigation() {
+        const { name0, name1, name2, name3 } = getQueryParams();
+
+        const url = `https://maps.apple.com/?daddr=${name0}&daddr=${name1}&daddr=${name2}&daddr=${name3}&dirflg=d&t=h`;
+        window.location.href = url;
+      }
+
+      // 카카오 네비게이션 시작
+      function startKakaoNavigation() {
+        const { name0, x0, y0, name1, x1, y1, name2, x2, y2, name3, x3, y3 } =
+          getQueryParams();
+
+        const viaPoints = [];
+        if (
+          name0 &&
+          x0 &&
+          y0 &&
+          name0 !== "undefined" &&
+          x0 !== "undefined" &&
+          y0 !== "undefined"
+        ) {
+          viaPoints.push({
+            name: name0,
+            x: parseFloat(x0),
+            y: parseFloat(y0),
+          });
+        }
+        if (
+          name1 &&
+          x1 &&
+          y1 &&
+          name1 !== "undefined" &&
+          x1 !== "undefined" &&
+          y1 !== "undefined"
+        ) {
+          viaPoints.push({
+            name: name1,
+            x: parseFloat(x1),
+            y: parseFloat(y1),
+          });
+        }
+        if (
+          name2 &&
+          x2 &&
+          y2 &&
+          name2 !== "undefined" &&
+          x2 !== "undefined" &&
+          y2 !== "undefined"
+        ) {
+          viaPoints.push({
+            name: name2,
+            x: parseFloat(x2),
+            y: parseFloat(y2),
+          });
+        }
+
+        Kakao.Navi.start({
+          name: name3,
+          x: parseFloat(x3),
+          y: parseFloat(y3),
+          coordType: "wgs84",
+          viaPoints: viaPoints,
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        style="width: 85px; height: 85px"
+        src="https://github.com/jinyoung1226/kakaoNaviWeb/blob/main/naviWeb.png?raw=true"
+        alt="navigation icon"
+      />
+      <h2>
+        하단의 버튼을 누르시면<br />
+        내비게이션으로 연결됩니다
+      </h2>
+      <div>
+        <!-- Apple Maps Navigation Button -->
+        <a
+          id="start-appleNavigation"
+          class="button apple-btn"
+          href="javascript:startAppleNavigation()"
+        >
+          <img
+            src="https://github.com/jinyoung1226/kakaoNaviWeb/blob/main/appleLogo.png?raw=true"
+            alt="Apple Maps"
+          />
+          Apple Maps로 시작하기
+        </a>
+      </div>
+      <div>
+        <!-- Kakao Navi Button -->
+        <a
+          id="start-kakaoNavigation"
+          class="button kakao-btn"
+          href="javascript:startKakaoNavigation()"
+        >
+          <img
+            src="https://github.com/jinyoung1226/kakaoNaviWeb/blob/main/kakaoLogo.png?raw=true"
+            alt="Kakao Navi"
+          />
+          카카오 내비로 시작하기
+        </a>
+      </div>
+    </div>
+  </body>
+</html>
